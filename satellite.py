@@ -11,7 +11,7 @@ import pgzrun
 from random import randint 
 from time import time
 
-WIDTH = 500
+WIDTH = 700
 HEIGHT = 500
 
 satellites = []
@@ -22,6 +22,7 @@ start_time = 0
 total_time = 0
 
 number_of_satellite = 8
+next_satellite = 0
 
 galaxy = Actor('galaxy')
 
@@ -29,7 +30,7 @@ def create_satellite():
     global start_time
     for count in range(0, number_of_satellite):
         satellite = Actor('satellite')
-        satellite.pos = randint(40,460), randint(40,460)
+        satellite.pos = randint(40,670), randint(40,460)
         satellites.append(satellite)
 
 number = 1
@@ -39,11 +40,27 @@ def draw():
     for i in range(8):
         satellites[i].draw()
         screen.draw.text(str(number +i), (satellites[i].pos[0], satellites[i].pos[1]))
+    for line in lines:
+        screen.draw.line(line[0], line[1], 'white')
+
 def update():
     pass
 
 create_satellite()
 
-def on_mouse
+def on_mouse_down(pos):
+    global next_satellite, lines
+    if next_satellite < number_of_satellite:
+        if satellites[next_satellite].collidepoint(pos):
+            if next_satellite != 0:
+                lines.append((satellites[next_satellite-1].pos, satellites[next_satellite].pos))
+
+                next_satellite +=1
+            else:
+                lines = []
+                next_satellite = 0
+
+
+
 
 pgzrun.go()
